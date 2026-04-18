@@ -321,9 +321,9 @@ class _CreateTicketScreenState extends State<CreateTicketScreen> {
                     ),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(Icons.attach_file_rounded, color: AppColors.primary),
                       SizedBox(width: 8),
                       Text(

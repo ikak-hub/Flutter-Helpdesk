@@ -81,9 +81,9 @@ class DashboardScreen extends StatelessWidget {
                         child: const Icon(Icons.person, color: Colors.white, size: 26),
                       ),
                       const SizedBox(width: 12),
-                      Column(
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
                             'Halo, John Doe 👋',
                             style: TextStyle(
@@ -130,7 +130,7 @@ class DashboardScreen extends StatelessWidget {
               mainAxisSpacing: 12,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              childAspectRatio: 1.5,
+              childAspectRatio: 1.2,
               children: [
                 _buildStatCard(context, 'Total Tiket', '24',
                     Icons.confirmation_num_outlined, AppColors.primary),
@@ -241,7 +241,7 @@ class DashboardScreen extends StatelessWidget {
   ) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -375,7 +375,7 @@ class DashboardScreen extends StatelessWidget {
     }
   }
 
-  final List<Map<String, dynamic>> _sampleTickets = [
+  final List<Map<String, dynamic>> _sampleTickets = const [
     {
       'id': '#TKT-001',
       'title': 'Koneksi internet tidak stabil di lab A',
