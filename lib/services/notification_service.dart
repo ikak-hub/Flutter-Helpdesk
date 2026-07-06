@@ -42,7 +42,7 @@ class NotificationService extends ChangeNotifier {
   Future<void> _showLocalNotification(NotificationModel n) async {
     const androidDetails = AndroidNotificationDetails(
       'helpdesk_channel',
-      'E-Ticketing Helpdesk',
+      'HelpPoint',
       channelDescription: 'Notifikasi perubahan status & komentar tiket',
       importance: Importance.high,
       priority: Priority.high,

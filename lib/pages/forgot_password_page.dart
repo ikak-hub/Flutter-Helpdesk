@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../services/auth_service.dart';
 
@@ -69,22 +70,23 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 72,
-            height: 72,
-            decoration: BoxDecoration(
+          ClipPath(
+            clipper: _CornerClip(),
+            child: Container(
+              width: 72,
+              height: 72,
               color: AppColors.primary.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
+              child: const Icon(Icons.key_rounded,
+                  color: AppColors.primary, size: 34),
             ),
-            child: const Icon(Icons.lock_reset_rounded,
-                color: AppColors.primary, size: 36),
           ),
           const SizedBox(height: 20),
-          const Text('Reset Password Anda',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
+          Text('Atur ulang password',
+              style: GoogleFonts.spaceGrotesk(
+                  fontSize: 21, fontWeight: FontWeight.w600)),
           const SizedBox(height: 8),
           const Text(
-            'Masukkan email yang terdaftar. Kami akan mengirimkan tautan untuk mengatur ulang password Anda.',
+            'Masukkan email yang terdaftar di HelpPoint. Tautan untuk mengatur ulang password akan dikirim ke email tersebut.',
             style: TextStyle(
                 color: AppColors.textSecondaryLight, fontSize: 13, height: 1.5),
           ),
@@ -131,8 +133,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
           SizedBox(
             width: double.infinity,
+            height: 50,
             child: ElevatedButton(
               onPressed: _isLoading ? null : _submit,
+              style: ElevatedButton.styleFrom(
+                shape: const TicketNotchBorder(radius: 10, notch: 16),
+              ),
               child: _isLoading
                   ? const SizedBox(
                       height: 20,
@@ -140,7 +146,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       child: CircularProgressIndicator(
                           color: Colors.white, strokeWidth: 2),
                     )
-                  : const Text('Kirim Tautan Reset'),
+                  : const Text('Kirim tautan reset'),
             ),
           ),
         ],
@@ -176,12 +182,38 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         const SizedBox(height: 32),
         SizedBox(
           width: double.infinity,
+          height: 50,
           child: ElevatedButton(
             onPressed: () => Navigator.pop(context),
+            style: ElevatedButton.styleFrom(
+              shape: const TicketNotchBorder(radius: 10, notch: 16),
+            ),
             child: const Text('Kembali ke Login'),
           ),
         ),
       ],
     );
   }
+}
+
+/// Bentuk kotak dengan sudut kiri-bawah terpotong — dipakai pada ikon
+/// kontekstual di halaman auth, konsisten dengan motif sobekan tiket.
+class _CornerClip extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    const cut = 16.0;
+    final path = Path();
+    path.moveTo(14, 0);
+    path.lineTo(size.width, 0);
+    path.lineTo(size.width, size.height);
+    path.lineTo(cut, size.height);
+    path.lineTo(0, size.height - cut);
+    path.lineTo(0, 14);
+    path.quadraticBezierTo(0, 0, 14, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

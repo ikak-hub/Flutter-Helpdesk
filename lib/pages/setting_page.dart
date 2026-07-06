@@ -115,7 +115,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   leading: const Icon(Icons.info_outline_rounded,
                       color: AppColors.primary),
                   title: const Text('Versi Aplikasi'),
-                  trailing: const Text('2.0.0',
+                  trailing: const Text('3.0.0',
                       style: TextStyle(color: AppColors.textSecondaryLight)),
                 ),
                 const Divider(height: 1),
@@ -141,7 +141,7 @@ class _SettingScreenState extends State<SettingScreen> {
           const SizedBox(height: 24),
           Center(
             child: Text(
-              'E-Ticketing Helpdesk v2.0.0\n© 2026 Universitas Airlangga',
+              'HelpPoint v3.0.0\n© 2026 Universitas Airlangga',
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 12, color: Colors.grey.shade500),

@@ -265,19 +265,9 @@ class _AdminTicketManagementScreenState
                               fontWeight: FontWeight.w600,
                               color: AppColors.textSecondaryLight)),
                       const Spacer(),
-                      Container(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: _priorityColor(ticket.priority).withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(ticket.priorityLabel,
-                            style: TextStyle(
-                                color: _priorityColor(ticket.priority),
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600)),
-                      ),
+                      StampBadge(
+                          label: ticket.priorityLabel,
+                          color: _priorityColor(ticket.priority)),
                     ],
                   ),
                   const SizedBox(height: 6),
@@ -316,29 +306,14 @@ class _AdminTicketManagementScreenState
                   const SizedBox(height: 10),
                   Row(
                     children: [
-                      Container(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: statusColor.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              width: 6,
-                              height: 6,
-                              decoration: BoxDecoration(
-                                  color: statusColor, shape: BoxShape.circle),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(ticketStatusLabel(ticket.status),
-                                style: TextStyle(
-                                    color: statusColor,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600)),
-                          ],
+                      StampBadge(
+                        label: ticketStatusLabel(ticket.status),
+                        color: statusColor,
+                        leading: Container(
+                          width: 6,
+                          height: 6,
+                          decoration: BoxDecoration(
+                              color: statusColor, shape: BoxShape.circle),
                         ),
                       ),
                       const Spacer(),

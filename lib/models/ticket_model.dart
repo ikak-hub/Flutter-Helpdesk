@@ -116,9 +116,9 @@ class TicketModel {
 
   String get priorityLabel {
     switch (priority) {
-      case 'High':
+      case 'high':
         return 'High';
-      case 'Low':
+      case 'low':
         return 'Low';
       default:
         return 'Medium';

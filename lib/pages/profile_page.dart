@@ -36,8 +36,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final user = AuthService().currentUser;
-    final myTickets =
-        user != null ? TicketService().ticketsForUser(user.id) : <TicketModel>[];
+
+    // Statistik disesuaikan per role:
+    // - User: tiket yang dia buat sendiri (sebagai pelapor).
+    // - Helpdesk: tiket yang ditugaskan kepadanya untuk ditangani.
+    // - Admin: seluruh tiket di sistem (mengawasi semua).
+    final List<TicketModel> myTickets;
+    if (user == null) {
+      myTickets = <TicketModel>[];
+    } else if (user.isAdmin) {
+      myTickets = TicketService().tickets;
+    } else if (user.isHelpdesk) {
+      myTickets = TicketService().ticketsForHelpdesk(user.id);
+    } else {
+      myTickets = TicketService().ticketsForUser(user.id);
+    }
+
     final onToggleTheme = widget.onToggleTheme;
     final themeMode = widget.themeMode;
 
@@ -104,20 +118,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     style: const TextStyle(color: Colors.white70, fontSize: 13),
                   ),
                   const SizedBox(height: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: AppColors.accent.withOpacity(0.25),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      user?.roleLabel ?? '-',
-                      style: const TextStyle(
-                          color: AppColors.accentLight,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600),
-                    ),
+                  StampBadge(
+                    label: user?.roleLabel.toUpperCase() ?? '-',
+                    color: AppColors.accentLight,
                   ),
                 ],
               ),
@@ -218,7 +221,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(height: 24),
                   Center(
                     child: Text(
-                      'E-Ticketing Helpdesk v2.0.0\n© 2026 Universitas Airlangga',
+                      'HelpPoint v3.0.0\n© 2026 Universitas Airlangga',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 12,
@@ -344,21 +347,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Container(
               width: 64,
               height: 64,
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: AppColors.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const Icon(Icons.headset_mic_rounded,
-                  color: AppColors.primary, size: 36),
+              child: Image.asset('assets/images/logo_mark.png'),
             ),
             const SizedBox(height: 16),
-            const Text('E-Ticketing Helpdesk',
+            const Text('HelpPoint',
                 style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
-            const Text('Versi 2.0.0',
+            const Text('Versi 3.0.0',
                 style: TextStyle(color: AppColors.textSecondaryLight)),
             const SizedBox(height: 12),
             const Text(
-              'Aplikasi mobile helpdesk untuk DIV Teknik Informatika Universitas Airlangga',
+              'Layanan keluhan IT kampus untuk DIV Teknik Informatika Universitas Airlangga',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 13),
             ),

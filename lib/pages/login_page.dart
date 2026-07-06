@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../services/auth_service.dart';
 import '../services/ticket_service.dart';
@@ -81,44 +82,50 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(24, 48, 24, 40),
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [AppColors.primary, AppColors.primaryLight],
-                  ),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(40),
-                    bottomRight: Radius.circular(40),
-                  ),
+                padding: const EdgeInsets.fromLTRB(28, 56, 28, 36),
+                decoration: const ShapeDecoration(
+                  color: AppColors.primary,
+                  shape: TicketNotchBorder(radius: 0, notch: 36),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 56,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: const Icon(Icons.headset_mic_rounded,
-                          color: Colors.white, size: 30),
+                    Row(
+                      children: [
+                        Container(
+                          width: 52,
+                          height: 52,
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.12),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Image.asset('assets/images/logo_mark.png'),
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          'HelpPoint',
+                          style: GoogleFonts.spaceGrotesk(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 24),
-                    const Text(
-                      'Selamat Datang',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                          fontWeight: FontWeight.w700),
-                    ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 28),
                     Text(
-                      'E-Ticketing Helpdesk – Universitas Airlangga',
+                      'Selamat datang kembali',
+                      style: GoogleFonts.spaceGrotesk(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Masuk untuk melaporkan dan memantau keluhan IT Anda',
                       style: TextStyle(
-                          color: Colors.white.withOpacity(0.8), fontSize: 13),
+                          color: Colors.white.withOpacity(0.7), fontSize: 13),
                     ),
                   ],
                 ),
@@ -209,8 +216,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       SizedBox(
                         width: double.infinity,
+                        height: 50,
                         child: ElevatedButton(
                           onPressed: _isLoading ? null : _login,
+                          style: ElevatedButton.styleFrom(
+                            shape: const TicketNotchBorder(radius: 10, notch: 16),
+                          ),
                           child: _isLoading
                               ? const SizedBox(
                                   height: 20,

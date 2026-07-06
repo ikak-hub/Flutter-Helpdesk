@@ -101,15 +101,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Buat Akun Baru',
+                'Daftar HelpPoint',
                 style: Theme.of(context)
                     .textTheme
                     .headlineSmall
-                    ?.copyWith(fontWeight: FontWeight.w700),
+                    ?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 4),
               Text(
-                'Lengkapi data diri untuk mendaftar',
+                'Lengkapi data diri untuk mulai melaporkan keluhan',
                 style: TextStyle(
                   color: isDark
                       ? AppColors.textSecondaryDark
@@ -235,8 +235,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               SizedBox(
                 width: double.infinity,
+                height: 50,
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _register,
+                  style: ElevatedButton.styleFrom(
+                    shape: const TicketNotchBorder(radius: 10, notch: 16),
+                  ),
                   child: _isLoading
                       ? const SizedBox(
                           height: 20,
@@ -244,7 +248,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: CircularProgressIndicator(
                               color: Colors.white, strokeWidth: 2),
                         )
-                      : const Text('Daftar Sekarang'),
+                      : const Text('Daftar sekarang'),
                 ),
               ),
               const SizedBox(height: 16),

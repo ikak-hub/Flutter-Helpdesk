@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../theme/app_theme.dart';
 import '../services/auth_service.dart';
@@ -68,7 +69,7 @@ class _UserDashboardScreenState extends State<UserDashboardScreen> {
       appBar: _currentIndex == 2 || _currentIndex == 3
           ? null
           : AppBar(
-              title: const Text('E-Ticketing Helpdesk'),
+              title: const Text('HelpPoint'),
               automaticallyImplyLeading: false,
               actions: [
                 IconButton(
@@ -111,40 +112,45 @@ class _UserDashboardScreenState extends State<UserDashboardScreen> {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                    colors: [AppColors.primary, AppColors.primaryLight]),
-                borderRadius: BorderRadius.circular(20),
+              decoration: const ShapeDecoration(
+                color: AppColors.primary,
+                shape: TicketNotchBorder(radius: 16, notch: 26),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        width: 48,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(Icons.person,
-                            color: Colors.white, size: 26),
-                      ),
-                      const SizedBox(width: 12),
                       Expanded(
-                        child: Text('Halo, ${user.name} 👋',
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Halo, ${user.name}',
+                                style: GoogleFonts.spaceGrotesk(
+                                    color: Colors.white,
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.w600)),
+                            const SizedBox(height: 4),
+                            Text('Pelapor · ${user.username}',
+                                style: TextStyle(
+                                    color: Colors.white.withOpacity(0.6),
+                                    fontSize: 12)),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 4,
+                        height: 36,
+                        color: AppColors.accent,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
-                  const Text(
-                      'Layanan helpdesk siap membantu permasalahan IT Anda.',
-                      style: TextStyle(color: Colors.white70, fontSize: 13)),
+                  const SizedBox(height: 14),
+                  Text(
+                      'Sampaikan keluhan IT Anda, tim kami yang menindaklanjuti.',
+                      style: TextStyle(
+                          color: Colors.white.withOpacity(0.72), fontSize: 13)),
                 ],
               ),
             ),
@@ -406,16 +412,6 @@ class _UserDashboardScreenState extends State<UserDashboardScreen> {
   }
 
   Widget _badge(String label, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withOpacity(0.3)),
-      ),
-      child: Text(label,
-          style:
-              TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.w600)),
-    );
+    return StampBadge(label: label, color: color);
   }
 }

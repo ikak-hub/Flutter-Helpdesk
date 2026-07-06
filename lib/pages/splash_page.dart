@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
@@ -109,21 +110,12 @@ class _SplashScreenState extends State<SplashScreen>
                       child: Container(
                         width: 120,
                         height: 120,
+                        padding: const EdgeInsets.all(22),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.15),
-                          borderRadius: BorderRadius.circular(32),
-                          border: Border.all(
-                            color: Colors.white.withOpacity(0.3),
-                            width: 2,
-                          ),
+                          color: Colors.white.withOpacity(0.12),
+                          borderRadius: BorderRadius.circular(28),
                         ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.headset_mic_rounded,
-                            color: Colors.white,
-                            size: 60,
-                          ),
-                        ),
+                        child: Image.asset('assets/images/logo_mark.png'),
                       ),
                     ),
                   ),
@@ -137,42 +129,50 @@ class _SplashScreenState extends State<SplashScreen>
                       offset: Offset(0, _slideAnim.value),
                       child: Column(
                         children: [
-                          const Text(
-                            'E-Ticketing',
-                            style: TextStyle(
+                          Text(
+                            'HelpPoint',
+                            style: GoogleFonts.spaceGrotesk(
                               color: Colors.white,
-                              fontSize: 32,
-                              fontWeight: FontWeight.w700,
+                              fontSize: 34,
+                              fontWeight: FontWeight.w600,
                               letterSpacing: -0.5,
                             ),
                           ),
-                          const Text(
-                            'Helpdesk',
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 20,
+                          Text(
+                            'layanan keluhan IT kampus',
+                            style: GoogleFonts.plusJakartaSans(
+                              color: Colors.white.withOpacity(0.65),
+                              fontSize: 13,
                               fontWeight: FontWeight.w400,
-                              letterSpacing: 4,
+                              letterSpacing: 0.3,
                             ),
                           ),
-                          const SizedBox(height: 12),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: AppColors.accent.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                  color: AppColors.accent.withOpacity(0.5)),
-                            ),
-                            child: const Text(
-                              'Universitas Airlangga',
-                              style: TextStyle(
-                                color: AppColors.accentLight,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
+                          const SizedBox(height: 14),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                width: 24,
+                                height: 1,
+                                color: AppColors.accent.withOpacity(0.6),
                               ),
-                            ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'DIV TEKNIK INFORMATIKA · UNAIR',
+                                style: GoogleFonts.plusJakartaSans(
+                                  color: AppColors.accentLight,
+                                  fontSize: 10.5,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 1.0,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Container(
+                                width: 24,
+                                height: 1,
+                                color: AppColors.accent.withOpacity(0.6),
+                              ),
+                            ],
                           ),
                         ],
                       ),

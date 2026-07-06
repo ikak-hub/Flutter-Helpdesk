@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import '../theme/app_theme.dart';
 import '../services/auth_service.dart';
 import '../services/notification_service.dart';
+import '../models/ticket_model.dart';
 
 /// SRS 5.10 Notification Screen — FR-008: Notifikasi.
 /// Flow: 1) Menampilkan pemberitahuan status tiket 2) Navigasi ke halaman terkait.
@@ -137,7 +138,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         height: 44,
                         decoration: BoxDecoration(
                           color: color.withOpacity(0.12),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(_iconFor(n.type), color: color, size: 22),
                       ),

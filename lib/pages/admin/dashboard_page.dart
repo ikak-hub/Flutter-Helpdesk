@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 import '../../services/auth_service.dart';
 import '../../services/ticket_service.dart';
@@ -93,52 +94,48 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      colors: [Color(0xFF1A3557), Color(0xFF2B5089)]),
-                  borderRadius: BorderRadius.circular(20),
+                decoration: const ShapeDecoration(
+                  color: AppColors.primary,
+                  shape: TicketNotchBorder(radius: 16, notch: 26),
                 ),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 52,
-                      height: 52,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.admin_panel_settings_rounded,
-                          color: Colors.white, size: 28),
-                    ),
-                    const SizedBox(width: 14),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Halo, ${user?.name ?? 'Admin'} 👋',
-                            style: const TextStyle(
+                            'Halo, ${user?.name ?? 'Admin'}',
+                            style: GoogleFonts.spaceGrotesk(
                                 color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w700),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600),
                           ),
+                          const SizedBox(height: 4),
+                          Text('Mengawasi seluruh tiket sistem',
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.65),
+                                  fontSize: 12.5)),
+                          const SizedBox(height: 10),
                           Container(
-                            margin: const EdgeInsets.only(top: 4),
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 2),
+                                horizontal: 9, vertical: 3),
                             decoration: BoxDecoration(
-                              color: AppColors.accent.withOpacity(0.3),
-                              borderRadius: BorderRadius.circular(10),
+                              color: AppColors.accent.withOpacity(0.25),
+                              borderRadius: BorderRadius.circular(4),
                             ),
-                            child: const Text('Administrator',
+                            child: const Text('ADMINISTRATOR',
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600)),
+                                    color: AppColors.accentLight,
+                                    fontSize: 10.5,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.6)),
                           ),
                         ],
                       ),
                     ),
+                    Container(width: 4, height: 56, color: AppColors.accent),
                   ],
                 ),
               ),
@@ -373,19 +370,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             Text('Oleh: ${ticket.userName}', style: const TextStyle(fontSize: 11)),
             Row(
               children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: statusColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(ticketStatusLabel(ticket.status),
-                      style: TextStyle(
-                          color: statusColor,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600)),
-                ),
+                StampBadge(label: ticketStatusLabel(ticket.status), color: statusColor),
               ],
             ),
           ],

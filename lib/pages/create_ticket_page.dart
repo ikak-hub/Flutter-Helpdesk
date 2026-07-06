@@ -513,8 +513,12 @@ class _CreateTicketScreenState extends State<CreateTicketScreen> {
 
               SizedBox(
                 width: double.infinity,
+                height: 50,
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _submitTicket,
+                  style: ElevatedButton.styleFrom(
+                    shape: const TicketNotchBorder(radius: 10, notch: 16),
+                  ),
                   child: _isLoading
                       ? const SizedBox(
                           height: 20,
