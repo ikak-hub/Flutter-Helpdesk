@@ -2,9 +2,6 @@
 -- Sesuai Software Requirement Specification v2.0.0
 -- Role: admin, helpdesk, user (3 role sesuai SRS, technical_support DIHAPUS)
 
--- ----------------------------------------------------------------------------
--- 1. ENUM TYPES
--- ----------------------------------------------------------------------------
 create type user_role as enum ('admin', 'helpdesk', 'user');
 
 create type ticket_status as enum ('open', 'assigned', 'in_progress', 'resolved', 'closed');
@@ -19,9 +16,7 @@ create type notification_type as enum (
   'ticket_resolved'
 );
 
--- ----------------------------------------------------------------------------
 -- 2. TABLE: profiles (extends auth.users)
--- ----------------------------------------------------------------------------
 create table public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   name text not null,
@@ -36,12 +31,10 @@ create table public.profiles (
 
 comment on table public.profiles is 'Data profil pengguna, role: admin/helpdesk/user sesuai SRS 2.2';
 
--- ----------------------------------------------------------------------------
 -- 3. TABLE: tickets
--- ----------------------------------------------------------------------------
 create table public.tickets (
   id uuid primary key default gen_random_uuid(),
-  ticket_number text not null unique, -- contoh: TKT-001
+  ticket_number text not null unique, 
   title text not null,
   description text not null,
   category text not null,
@@ -104,9 +97,7 @@ create trigger trg_profiles_updated_at
 before update on public.profiles
 for each row execute function public.set_updated_at();
 
--- ----------------------------------------------------------------------------
 -- 4. TABLE: ticket_history (Riwayat & Tracking - FR-010, FR-011, BR-005)
--- ----------------------------------------------------------------------------
 create table public.ticket_history (
   id uuid primary key default gen_random_uuid(),
   ticket_id uuid not null references public.tickets(id) on delete cascade,
@@ -124,9 +115,7 @@ comment on table public.ticket_history is 'Histori perubahan status & aktivitas 
 
 create index idx_ticket_history_ticket_id on public.ticket_history(ticket_id);
 
--- ----------------------------------------------------------------------------
 -- 5. TABLE: ticket_comments
--- ----------------------------------------------------------------------------
 create table public.ticket_comments (
   id uuid primary key default gen_random_uuid(),
   ticket_id uuid not null references public.tickets(id) on delete cascade,
@@ -139,9 +128,7 @@ create table public.ticket_comments (
 
 create index idx_ticket_comments_ticket_id on public.ticket_comments(ticket_id);
 
--- ----------------------------------------------------------------------------
 -- 6. TABLE: ticket_attachments
--- ----------------------------------------------------------------------------
 create table public.ticket_attachments (
   id uuid primary key default gen_random_uuid(),
   ticket_id uuid not null references public.tickets(id) on delete cascade,
@@ -154,9 +141,7 @@ create table public.ticket_attachments (
 
 create index idx_ticket_attachments_ticket_id on public.ticket_attachments(ticket_id);
 
--- ----------------------------------------------------------------------------
 -- 7. TABLE: notifications (FR-008, BR-003)
--- ----------------------------------------------------------------------------
 create table public.notifications (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references public.profiles(id) on delete cascade,
@@ -173,9 +158,7 @@ comment on table public.notifications is 'Notifikasi per user, dikonsumsi via Su
 create index idx_notifications_user_id on public.notifications(user_id);
 create index idx_notifications_is_read on public.notifications(user_id, is_read);
 
--- ----------------------------------------------------------------------------
 -- 8. FUNCTION: handle_new_user (trigger saat auth.users baru dibuat via signUp)
--- ----------------------------------------------------------------------------
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
@@ -195,9 +178,7 @@ create trigger trg_on_auth_user_created
 after insert on auth.users
 for each row execute function public.handle_new_user();
 
--- ----------------------------------------------------------------------------
 -- 9. FUNCTION: notify on ticket events (trigger -> insert ke notifications)
--- ----------------------------------------------------------------------------
 create or replace function public.notify_ticket_created()
 returns trigger as $$
 begin
@@ -295,9 +276,7 @@ create trigger trg_notify_ticket_commented
 after insert on public.ticket_comments
 for each row execute function public.notify_ticket_commented();
 
--- ----------------------------------------------------------------------------
 -- 10. ROW LEVEL SECURITY
--- ----------------------------------------------------------------------------
 alter table public.profiles enable row level security;
 alter table public.tickets enable row level security;
 alter table public.ticket_history enable row level security;
@@ -441,17 +420,13 @@ create policy "Notifications: user can update own (mark as read)" on public.noti
 create policy "Notifications: system insert via trigger" on public.notifications
   for insert with check (true);
 
--- ----------------------------------------------------------------------------
 -- 11. REALTIME (BR-003: Supabase Realtime)
--- ----------------------------------------------------------------------------
 alter publication supabase_realtime add table public.tickets;
 alter publication supabase_realtime add table public.ticket_comments;
 alter publication supabase_realtime add table public.notifications;
 alter publication supabase_realtime add table public.ticket_history;
 
--- ----------------------------------------------------------------------------
--- 12. STORAGE BUCKET (jalankan manual jika bucket belum ada, atau via dashboard)
--- ----------------------------------------------------------------------------
+-- 12. STORAGE BUCKET
 insert into storage.buckets (id, name, public)
 values ('ticket-attachments', 'ticket-attachments', false)
 on conflict (id) do nothing;
@@ -464,13 +439,5 @@ create policy "Storage: authenticated users can view attachments"
 on storage.objects for select
 using (bucket_id = 'ticket-attachments' and auth.role() = 'authenticated');
 
--- ----------------------------------------------------------------------------
--- 13. SEED DATA (opsional, untuk testing - 1 admin & 1 helpdesk default)
--- Catatan: user di auth.users harus dibuat dulu lewat Supabase Auth (dashboard
--- atau supabase.auth.admin.createUser), baru profiles bisa di-update role-nya.
--- Setelah membuat user admin@helpdesk.unair.ac.id dan helpdesk@helpdesk.unair.ac.id
--- lewat Auth, jalankan:
---
 -- update public.profiles set role = 'admin' where email = 'admin@helpdesk.unair.ac.id';
 -- update public.profiles set role = 'helpdesk' where email = 'helpdesk@helpdesk.unair.ac.id';
--- ----------------------------------------------------------------------------
